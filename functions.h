@@ -14,10 +14,13 @@ extern struct Task tasks[MAX_TASKS];
 
 void saveTasks();
 void loadTasks();
+void printTask(int);
 void displayTasks();
 void addTask();
 void viewTasks();
 void completeTask();
 void deleteTask();
+void searchTask();
+void taskStatistics();
 
 #endif

@@ -5,6 +5,18 @@
 struct Task tasks[MAX_TASKS];
 int taskCount = 0;
 
+void printTask(int index)
+{
+    printf("%-5d ", index + 1);
+
+    if (tasks[index].done)
+        printf("[✓] Done      ");
+    else
+        printf("[ ] Pending   ");
+
+    printf("%s\n", tasks[index].task);
+}
+
 void saveTasks(){
     FILE *ptr = fopen("tasks.dat", "wb");
     
@@ -40,14 +52,7 @@ void displayTasks(){
     printf("---------------------------------------------------------\n");
     for (int i = 0; i < taskCount; i++)
     {
-        if (tasks[i].done == 0)
-        {
-            printf("%-5d [ ] pending   %s\n", i + 1, tasks[i].task);
-        }
-        else
-        {
-            printf("%-5d [✓] Done      %s\n", i + 1, tasks[i].task);
-        }
+        printTask(i);
     }
     printf("---------------------------------------------------------\n");
 }
@@ -172,4 +177,81 @@ void deleteTask(){
     printf("Task removed successfully.\n");
     
     saveTasks();
+}
+
+void searchTask(){
+    char keyword[50];
+    int found = 0;
+
+    printf("=========================================================\n");
+    printf("                    SEARCH TASK\n");
+    printf("=========================================================\n");
+    printf("\nEnter keyword: ");
+
+    fgets(keyword, 50, stdin);
+
+    keyword[strcspn(keyword, "\n")] = '\0';
+
+    if (found == 0)
+    {
+        printf("No matching tasks found.\n");
+    }
+    else
+    {
+        printf("---------------------------------------------------------\n");
+        printf("Found %d matching task(s).\n", found);
+    }
+
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (strstr(tasks[i].task, keyword) != NULL)
+        {
+            printTask(i);
+            found++;
+        }
+    }
+    
+    
+}
+
+void taskStatistics(){
+    int completed_tasks = 0,pending_tasks = 0;
+
+    if (taskCount == 0)
+    {
+        printf("=========================================================\n");
+        printf("                 TASK STATISTICS\n");
+        printf("=========================================================\n");
+        printf("\nNo tasks available.\n");
+
+        printf("\nPress Enter to continue...");
+        getchar();
+        getchar();
+        return;
+    }
+
+    printf("=========================================================\n");
+    printf("                 TASK STATISTICS\n");
+    printf("=========================================================\n");
+
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i].done)
+        {
+            completed_tasks++;
+        }
+        else{
+            pending_tasks++;
+        }
+    }
+    float completion_rate = ((float)completed_tasks/taskCount)*100.00;
+
+    printf("\nTotal Tasks     : %d\n", taskCount);
+    printf("Completed Tasks   : %d\n", completed_tasks);
+    printf("Pending Tasks     : %d\n", pending_tasks);
+    printf("Completion Rate   : %.2f%%\n", completion_rate);
+    printf("\n=========================================================\n");
+    printf("Press Enter to continue...");
+    getchar();
+    getchar();
 }

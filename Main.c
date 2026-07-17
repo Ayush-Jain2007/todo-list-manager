@@ -15,7 +15,9 @@ int main()
         printf("2. View Tasks\n");
         printf("3. Complete Task\n");
         printf("4. Delete Task\n");
-        printf("5. Exit\n");
+        printf("5. Search Task\n");
+        printf("6. Task Statistics\n");
+        printf("7. Exit\n");
         printf("---------------------------------------------------------\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -39,15 +41,23 @@ int main()
             break;
 
         case 5:
+            searchTask();
+            break;
+
+        case 6:
+            taskStatistics();
+            break;
+
+        case 7:
             printf("Exiting...\n");
             break;
 
         default:
-            printf("Please enter between 1 and 5.\n");
+            printf("Please enter between 1 and 7.\n");
             break;
         }
 
-    } while (choice != 5);
+    } while (choice != 7);
 
     return 0;
 }

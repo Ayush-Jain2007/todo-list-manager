@@ -1,6 +1,6 @@
 # 📝 To-Do List Manager
 
-A simple console-based **To-Do List Manager** written in **C**. This project helps users manage their daily tasks with features like adding tasks, viewing tasks, marking tasks as completed, and automatically saving progress using binary file handling.
+A console-based **To-Do List Manager** built in **C** that allows users to manage daily tasks through an interactive menu. The project demonstrates concepts such as modular programming, file handling, structures, and persistent data storage using binary files.
 
 ---
 
@@ -9,15 +9,17 @@ A simple console-based **To-Do List Manager** written in **C**. This project hel
 - ➕ Add new tasks
 - 📋 View all tasks
 - ✅ Mark tasks as completed
-- 💾 Automatic save/load using binary files
+- 🗑️ Delete tasks
+- 🔍 Search tasks by keyword
+- 📊 View task statistics (total, completed, pending, completion rate)
+- 💾 Persistent task storage using binary file handling (`tasks.dat`)
 - 📁 Modular project structure (`main.c`, `functions.c`, `functions.h`)
-
 ---
 
 ## 📂 Project Structure
 
 ```
-To-Do-List/
+todo-list-manager/
 │
 ├── main.c
 ├── functions.c
@@ -73,7 +75,10 @@ ToDoList.exe
 1. Add Task
 2. View Tasks
 3. Complete Task
-4. Exit
+4. Delete Task
+5. Search Task
+6. Task Statistics
+7. Exit
 ---------------------------------------------------------
 Enter your choice:
 ```
@@ -95,22 +100,13 @@ The file is automatically:
 
 ---
 
-## 📌 Current Features
-
-- Add Task
-- View Tasks
-- Mark Task as Completed
-- Persistent Storage (Binary File Handling)
-
----
-
 ## 🔄 Planned Features
 
-- Delete Task
-- Search Tasks
-- Task Statistics
-- Improved Input Validation
-- Enhanced Console UI
+- ✏️ Edit existing tasks
+- 📂 Filter completed and pending tasks
+- 🔤 Sort tasks alphabetically
+- 🛡️ Improved input validation
+- 🎨 Enhanced console interface 
 
 ---
 
