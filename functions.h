@@ -18,5 +18,6 @@ void displayTasks();
 void addTask();
 void viewTasks();
 void completeTask();
+void deleteTask();
 
 #endif

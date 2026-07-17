@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "functions.h"
 
 struct Task tasks[MAX_TASKS];
@@ -110,7 +111,7 @@ void completeTask()
     
     displayTasks();
 
-    printf("\nEnter task number to mark as completed (0 to cancel): \n");
+    printf("\nEnter task number to mark as completed (0 to cancel): ");
     scanf("%d", &task_complete);
 
     if (task_complete < 1 || task_complete > taskCount)
@@ -132,4 +133,43 @@ void completeTask()
         printf("Task list updated successfully.\n");
         return;
     }
+}
+
+void deleteTask(){
+    int task_delete;
+
+    if (taskCount == 0)
+    {
+        printf("No tasks available.\n");
+        return;
+    }
+
+    printf("=========================================================\n");
+    printf("                  DELETE A TASK\n");
+    printf("=========================================================\n\n");
+
+    displayTasks();
+
+    printf("\nEnter task number to delete (0 to cancel): ");
+    scanf("%d", &task_delete);
+
+    if (task_delete == 0)
+    {
+        return;
+    }
+
+    if (task_delete < 1 || task_delete > taskCount)
+    {
+        printf("Invalid task number.\n");
+        return;
+    }
+
+    for (int i = task_delete-1; i < taskCount-1; i++)
+    {
+        tasks[i] = tasks[i+1];
+    }
+    taskCount--;
+    printf("Task removed successfully.\n");
+    
+    saveTasks();
 }
