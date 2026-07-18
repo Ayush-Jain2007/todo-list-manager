@@ -22,5 +22,6 @@ void completeTask();
 void deleteTask();
 void searchTask();
 void taskStatistics();
+void editTask();
 
 #endif

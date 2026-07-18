@@ -255,3 +255,41 @@ void taskStatistics(){
     getchar();
     getchar();
 }
+
+void editTask(){
+    int choice;
+    if (taskCount == 0)
+    {
+        printf("No task to edit.\n");
+        return;
+    }
+    
+    printf("=========================================================\n");
+    printf("                    EDIT TASK\n");
+    printf("=========================================================\n");
+    
+    displayTasks();
+
+    if (choice == 0)
+    {
+        printf("Cancelling...\n");
+        return;
+    }
+
+    if (choice < 1 || choice > taskCount)
+    {
+        printf("Invalid task number.\n");
+        return;
+    }
+
+    printf("\nCurrent Task:\n%s\n",tasks[choice-1].task);
+    getchar();
+
+    printf("\nEnter new task:\n");
+    fgets(tasks[choice-1].task, 50, stdin);
+
+    tasks[choice-1].task[strcspn(tasks[choice-1].task, "\n")] = '\0';
+
+    saveTasks();
+    printf("Task updated successfully.\n");
+}

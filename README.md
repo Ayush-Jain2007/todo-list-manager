@@ -12,6 +12,7 @@ A console-based **To-Do List Manager** built in **C** that allows users to manag
 - 🗑️ Delete tasks
 - 🔍 Search tasks by keyword
 - 📊 View task statistics (total, completed, pending, completion rate)
+- ✏️ Edit existing tasks
 - 💾 Persistent task storage using binary file handling (`tasks.dat`)
 - 📁 Modular project structure (`main.c`, `functions.c`, `functions.h`)
 ---
@@ -78,7 +79,8 @@ ToDoList.exe
 4. Delete Task
 5. Search Task
 6. Task Statistics
-7. Exit
+7. Edit Task
+8. Exit
 ---------------------------------------------------------
 Enter your choice:
 ```
@@ -102,7 +104,6 @@ The file is automatically:
 
 ## 🔄 Planned Features
 
-- ✏️ Edit existing tasks
 - 📂 Filter completed and pending tasks
 - 🔤 Sort tasks alphabetically
 - 🛡️ Improved input validation
