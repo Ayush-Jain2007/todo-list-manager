@@ -32,6 +32,45 @@ void saveTasks(){
     fclose(ptr);
 }
 
+int getInt(const char *prompt)
+{
+    int value;
+    char ch;
+
+    while (1)
+    {
+        printf("%s", prompt);
+
+        if(scanf("%d", &value) == 1)
+        {
+            while ((ch = getchar()) != '\n' && ch != EOF);
+            
+            return value;
+        }
+
+        printf("Invalid input! Please enter a number.\n");
+
+        while ((ch = getchar()) != '\n' && ch != EOF);
+    }
+}
+
+int getIntInRange(const char *prompt, int min, int max)
+{
+    int value;
+
+    while (1)
+    {
+        value = getInt(prompt);
+
+        if (value >= min && value <= max)
+        {
+            return value;
+        }
+        
+        printf("Please enter a number between %d and %d.\n", min, max);
+    }
+    
+}
 
 void loadTasks(){
     FILE *ptr = fopen("tasks.dat", "rb");
@@ -98,7 +137,6 @@ void viewTasks()
     printf("Total Tasks: %d\n\n", taskCount);
     printf("Press Enter to continue...");
     getchar();
-    getchar();
 }
 
 
@@ -116,8 +154,7 @@ void completeTask()
     
     displayTasks();
 
-    printf("\nEnter task number to mark as completed (0 to cancel): ");
-    scanf("%d", &task_complete);
+    task_complete = getIntInRange("\nEnter task number to mark as completed (0 to cancel): ", 0, taskCount);
 
     if (task_complete < 1 || task_complete > taskCount)
     {
@@ -155,8 +192,7 @@ void deleteTask(){
 
     displayTasks();
 
-    printf("\nEnter task number to delete (0 to cancel): ");
-    scanf("%d", &task_delete);
+    task_delete = getIntInRange("\nEnter task number to delete (0 to cancel): ", 0, taskCount);
 
     if (task_delete == 0)
     {
@@ -255,7 +291,6 @@ void taskStatistics(){
     printf("\n=========================================================\n");
     printf("Press Enter to continue...");
     getchar();
-    getchar();
 }
 
 void editTask(){
@@ -272,8 +307,7 @@ void editTask(){
     
     displayTasks();
 
-    printf("Enter task number (0 to cancel):");
-    scanf("%d", &choice);
+    choice = getIntInRange("Enter task number (0 to cancel):", 0, taskCount);
 
     if (choice == 0)
     {

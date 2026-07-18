@@ -20,8 +20,7 @@ int main()
         printf("7. Edit Task\n");
         printf("8. Exit\n");
         printf("---------------------------------------------------------\n");
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
+        choice = getIntInRange("Enter your choice: ", 1, 8);
 
         switch (choice)
         {

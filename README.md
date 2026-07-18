@@ -13,6 +13,8 @@ A console-based **To-Do List Manager** built in **C** that allows users to manag
 - 🔍 Search tasks by keyword
 - 📊 View task statistics (total, completed, pending, completion rate)
 - ✏️ Edit existing tasks
+- 🛡️ Improved input validation
+- 📂 Filter completed and pending tasks
 - 💾 Persistent task storage using binary file handling (`tasks.dat`)
 - 📁 Modular project structure (`main.c`, `functions.c`, `functions.h`)
 ---
@@ -104,9 +106,7 @@ The file is automatically:
 
 ## 🔄 Planned Features
 
-- 📂 Filter completed and pending tasks
 - 🔤 Sort tasks alphabetically
-- 🛡️ Improved input validation
 - 🎨 Enhanced console interface 
 
 ---
