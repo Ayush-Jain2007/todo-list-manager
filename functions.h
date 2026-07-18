@@ -14,6 +14,7 @@ extern struct Task tasks[MAX_TASKS];
 
 void saveTasks();
 void loadTasks();
+void printHeader(const char *title);
 int getInt(const char *prompt);
 int getIntInRange(const char *prompt, int min, int max);
 void printTask(int);
@@ -25,5 +26,6 @@ void deleteTask();
 void searchTask();
 void taskStatistics();
 void editTask();
+void filterTasks();
 
 #endif

@@ -17,9 +17,10 @@ void printTask(int index)
     printf("%s\n", tasks[index].task);
 }
 
-void saveTasks(){
+void saveTasks()
+{
     FILE *ptr = fopen("tasks.dat", "wb");
-    
+
     if (ptr == NULL)
     {
         printf("Error saving tasks.\n");
@@ -32,6 +33,16 @@ void saveTasks(){
     fclose(ptr);
 }
 
+void printHeader(const char *title)
+{
+    printf("=========================================================\n");
+    printf("%30s\n", title);
+    printf("=========================================================\n");
+
+    printf("\nNo.   Status      Task\n");
+    printf("---------------------------------------------------------\n");
+}
+
 int getInt(const char *prompt)
 {
     int value;
@@ -41,16 +52,18 @@ int getInt(const char *prompt)
     {
         printf("%s", prompt);
 
-        if(scanf("%d", &value) == 1)
+        if (scanf("%d", &value) == 1)
         {
-            while ((ch = getchar()) != '\n' && ch != EOF);
-            
+            while ((ch = getchar()) != '\n' && ch != EOF)
+                ;
+
             return value;
         }
 
         printf("Invalid input! Please enter a number.\n");
 
-        while ((ch = getchar()) != '\n' && ch != EOF);
+        while ((ch = getchar()) != '\n' && ch != EOF)
+            ;
     }
 }
 
@@ -66,13 +79,13 @@ int getIntInRange(const char *prompt, int min, int max)
         {
             return value;
         }
-        
+
         printf("Please enter a number between %d and %d.\n", min, max);
     }
-    
 }
 
-void loadTasks(){
+void loadTasks()
+{
     FILE *ptr = fopen("tasks.dat", "rb");
 
     if (ptr == NULL)
@@ -86,7 +99,8 @@ void loadTasks(){
     fclose(ptr);
 }
 
-void displayTasks(){
+void displayTasks()
+{
     printf("No.   Status      Task\n");
     printf("---------------------------------------------------------\n");
     for (int i = 0; i < taskCount; i++)
@@ -120,7 +134,6 @@ void addTask()
     printf("Task added successfully!\n");
 }
 
-
 void viewTasks()
 {
     if (taskCount == 0)
@@ -131,14 +144,13 @@ void viewTasks()
     printf("=========================================================\n");
     printf("                    YOUR TASKS\n");
     printf("=========================================================\n\n");
-    
+
     displayTasks();
 
     printf("Total Tasks: %d\n\n", taskCount);
     printf("Press Enter to continue...");
     getchar();
 }
-
 
 void completeTask()
 {
@@ -151,7 +163,7 @@ void completeTask()
     printf("=========================================================\n");
     printf("                 COMPLETE A TASK\n");
     printf("=========================================================\n");
-    
+
     displayTasks();
 
     task_complete = getIntInRange("\nEnter task number to mark as completed (0 to cancel): ", 0, taskCount);
@@ -177,7 +189,8 @@ void completeTask()
     }
 }
 
-void deleteTask(){
+void deleteTask()
+{
     int task_delete;
 
     if (taskCount == 0)
@@ -205,17 +218,18 @@ void deleteTask(){
         return;
     }
 
-    for (int i = task_delete-1; i < taskCount-1; i++)
+    for (int i = task_delete - 1; i < taskCount - 1; i++)
     {
-        tasks[i] = tasks[i+1];
+        tasks[i] = tasks[i + 1];
     }
     taskCount--;
     printf("Task removed successfully.\n");
-    
+
     saveTasks();
 }
 
-void searchTask(){
+void searchTask()
+{
     char keyword[50];
     int found = 0;
 
@@ -249,11 +263,11 @@ void searchTask(){
         printf("---------------------------------------------------------\n");
         printf("Found %d matching task(s).\n", found);
     }
-
 }
 
-void taskStatistics(){
-    int completed_tasks = 0,pending_tasks = 0;
+void taskStatistics()
+{
+    int completed_tasks = 0, pending_tasks = 0;
 
     if (taskCount == 0)
     {
@@ -278,11 +292,12 @@ void taskStatistics(){
         {
             completed_tasks++;
         }
-        else{
+        else
+        {
             pending_tasks++;
         }
     }
-    float completion_rate = ((float)completed_tasks/taskCount)*100.00;
+    float completion_rate = ((float)completed_tasks / taskCount) * 100.00;
 
     printf("\nTotal Tasks     : %d\n", taskCount);
     printf("Completed Tasks   : %d\n", completed_tasks);
@@ -293,18 +308,19 @@ void taskStatistics(){
     getchar();
 }
 
-void editTask(){
+void editTask()
+{
     int choice;
     if (taskCount == 0)
     {
         printf("No task to edit.\n");
         return;
     }
-    
+
     printf("=========================================================\n");
     printf("                    EDIT TASK\n");
     printf("=========================================================\n");
-    
+
     displayTasks();
 
     choice = getIntInRange("Enter task number (0 to cancel):", 0, taskCount);
@@ -321,14 +337,115 @@ void editTask(){
         return;
     }
 
-    printf("\nCurrent Task:\n%s\n",tasks[choice-1].task);
+    printf("\nCurrent Task:\n%s\n", tasks[choice - 1].task);
     getchar();
 
     printf("\nEnter new task:\n");
-    fgets(tasks[choice-1].task, 50, stdin);
+    fgets(tasks[choice - 1].task, 50, stdin);
 
-    tasks[choice-1].task[strcspn(tasks[choice-1].task, "\n")] = '\0';
+    tasks[choice - 1].task[strcspn(tasks[choice - 1].task, "\n")] = '\0';
 
     saveTasks();
     printf("Task updated successfully.\n");
+}
+
+void filterTasks()
+{
+    int choice;
+
+    printf("=========================================================\n");
+    printf("                  FILTER TASKS\n");
+    printf("=========================================================\n");
+    printf("\n1. All Tasks\n");
+    printf("2. Pending Tasks\n");
+    printf("3. Completed Tasks\n");
+    printf("4. Back\n");
+    printf("\n---------------------------------------------------------\n");
+
+    choice = getIntInRange("Enter your choice: ", 1, 4);
+
+    switch (choice)
+    {
+    case 1:
+
+        if (taskCount == 0)
+        {
+            printf("No tasks available.\n");
+            return;
+        }
+
+        printHeader("ALL TASKS");
+
+        for (int i = 0; i < taskCount; i++)
+        {
+            printTask(i);
+        }
+        printf("---------------------------------------------------------\n");
+        break;
+
+    case 2:
+    {
+        int total_pending = 0;
+
+        if (taskCount == 0)
+        {
+            printf("No tasks available.\n");
+            return;
+        }
+        
+        printHeader("PENDING TASKS");
+
+        for (int i = 0; i < taskCount; i++)
+        {
+            if (!tasks[i].done)
+            {
+                printTask(i);
+                total_pending++;
+            }
+        }
+        printf("---------------------------------------------------------\n");
+        if (!total_pending)
+        {
+            printf("No task pending.\n");
+            break;
+        }
+        
+        printf("Total Pending: %d\n", total_pending);
+        break;
+    }
+
+    case 3:
+    {
+        int total_completed = 0;
+
+        if (taskCount == 0)
+        {
+            printf("No tasks available.\n");
+            return;
+        }
+        
+        printHeader("COMPLETED TASKS");
+
+        for (int i = 0; i < taskCount; i++)
+        {
+            if (tasks[i].done)
+            {
+                printTask(i);
+                total_completed++;
+            }
+        }
+        printf("---------------------------------------------------------\n");
+        if (!total_completed)
+        {
+            printf("No completed task found.\n");
+            break;
+        }
+        
+        printf("Total Completed: %d\n", total_completed);
+        break;
+    }
+
+    case 4:
+        return;
+    }
 }

@@ -18,9 +18,10 @@ int main()
         printf("5. Search Task\n");
         printf("6. Task Statistics\n");
         printf("7. Edit Task\n");
-        printf("8. Exit\n");
+        printf("8. Filter Tasks\n");
+        printf("9. Exit\n");
         printf("---------------------------------------------------------\n");
-        choice = getIntInRange("Enter your choice: ", 1, 8);
+        choice = getIntInRange("Enter your choice: ", 1, 9);
 
         switch (choice)
         {
@@ -53,15 +54,19 @@ int main()
             break;
 
         case 8:
+            filterTasks();
+            break;
+
+        case 9:
             printf("Exiting...\n");
             break;
 
         default:
-            printf("Please enter between 1 and 8.\n");
+            printf("Please enter between 1 and 9.\n");
             break;
         }
 
-    } while (choice != 8);
+    } while (choice != 9);
 
     return 0;
 }
