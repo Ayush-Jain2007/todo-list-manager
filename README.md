@@ -10,12 +10,20 @@ A console-based **To-Do List Manager** built in **C** that allows users to manag
 - 📋 View all tasks
 - ✅ Mark tasks as completed
 - 🗑️ Delete tasks
+- ✏️ Edit existing tasks
 - 🔍 Search tasks by keyword
 - 📊 View task statistics (total, completed, pending, completion rate)
-- ✏️ Edit existing tasks
+- 🏷️ Assign priority levels (High, Medium, Low)
+- 🔄 Sort tasks
+  - By Priority
+  - Alphabetically
+  - By Status
+- 📂 Filter tasks
+  - All Tasks
+  - Pending Tasks
+  - Completed Tasks
 - 🛡️ Improved input validation
-- 📂 Filter completed and pending tasks
-- 💾 Persistent task storage using binary file handling (`tasks.dat`)
+- 💾 Persistent task storage using binary files (`tasks.dat`)
 - 📁 Modular project structure (`main.c`, `functions.c`, `functions.h`)
 ---
 
@@ -39,9 +47,11 @@ todo-list-manager/
 
 - C Programming Language
 - Standard C Library
-- File Handling
 - Structures
+- Arrays
 - Modular Programming
+- File Handling
+- Binary File I/O
 
 ---
 
@@ -82,10 +92,25 @@ ToDoList.exe
 5. Search Task
 6. Task Statistics
 7. Edit Task
-8. Exit
+8. Filter Tasks
+9. Sort Tasks
+10. Exit
 ---------------------------------------------------------
 Enter your choice:
 ```
+
+---
+
+## 📌 Current Version
+
+**v3.0.0**
+
+Latest additions:
+- Task priorities
+- Edit task
+- Input validation
+- Task filtering
+- Task sorting
 
 ---
 
@@ -106,7 +131,10 @@ The file is automatically:
 
 ## 🔄 Planned Features
 
-- 🔤 Sort tasks alphabetically
+- 📅 Due Dates
+- 🏷️ Task Categories
+- ⭐ Pin/Favorite Tasks
+- 📄 Export tasks to a text file
 - 🎨 Enhanced console interface 
 
 ---
@@ -121,6 +149,9 @@ The file is automatically:
 - File Handling
 - Binary Files (`fread()` / `fwrite()`)
 - Input Validation
+- Searching Algorithms
+- Sorting Algorithms
+- Menu-driven Programming
 
 ---
 

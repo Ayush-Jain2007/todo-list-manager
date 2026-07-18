@@ -5,6 +5,80 @@
 struct Task tasks[MAX_TASKS];
 int taskCount = 0;
 
+const char *getPriority(int priority)
+{
+    if (priority == 1)
+    {
+        return "High";
+    }
+    else if (priority == 2)
+    {
+        return "Medium";
+    }
+    else
+    {
+        return "Low";
+    }
+}
+
+void sortByPriority()
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        for (int j = i+1; j < taskCount; j++)
+        {
+            if (tasks[i].priority > tasks[j].priority)
+            {
+                swapTasks(i, j);
+            }
+        }
+    }
+
+    saveTasks();
+    printf("Tasks sorted by priority successfully.\n");
+}
+
+void sortAlphabetically(){
+    for (int i = 0; i < taskCount; i++)
+    {
+        for (int j = i+1; j < taskCount; j++)
+        {
+            if (strcmp(tasks[i].task, tasks[j].task) > 0)
+            {
+                swapTasks(i, j);
+            }
+        }
+    }
+
+    saveTasks();
+    printf("Tasks sorted alphabetically.\n");
+}
+
+void sortByStatus(){
+    for (int i = 0; i < taskCount; i++)
+    {
+        for (int j = i+1; j < taskCount; j++)
+        {
+            if (tasks[i].done > tasks[j].done)
+            {
+                swapTasks(i, j);
+            }
+        }
+    }
+    
+    saveTasks();
+    printf("Tasks sorted by status successfully.\n");
+}
+
+void swapTasks(int a, int b)
+{
+    struct Task temp;
+
+    temp = tasks[a];
+    tasks[a] = tasks[b];
+    tasks[b] = temp;
+}
+
 void printTask(int index)
 {
     printf("%-5d ", index + 1);
@@ -13,6 +87,19 @@ void printTask(int index)
         printf("[✓] Done      ");
     else
         printf("[ ] Pending   ");
+
+    switch (tasks[index].priority)
+    {
+    case 1:
+        printf("%-10s", "High");
+        break;
+    case 2:
+        printf("%-10s", "Medium");
+        break;
+    case 3:
+        printf("%-10s", "Low");
+        break;
+    }
 
     printf("%s\n", tasks[index].task);
 }
@@ -39,7 +126,7 @@ void printHeader(const char *title)
     printf("%30s\n", title);
     printf("=========================================================\n");
 
-    printf("\nNo.   Status      Task\n");
+    printf("\nNo.   Status       Priority    Task\n");
     printf("---------------------------------------------------------\n");
 }
 
@@ -101,7 +188,7 @@ void loadTasks()
 
 void displayTasks()
 {
-    printf("No.   Status      Task\n");
+    printf("No.   Status       Priority    Task\n");
     printf("---------------------------------------------------------\n");
     for (int i = 0; i < taskCount; i++)
     {
@@ -112,23 +199,36 @@ void displayTasks()
 
 void addTask()
 {
+    int choice;
     if (taskCount >= MAX_TASKS)
     {
         printf("Your Task List is full.\n");
         return;
     }
 
-    getchar();
-
-    printf("Enter a Task: ");
+    printf("Enter Task: ");
     fgets(tasks[taskCount].task, 50, stdin);
 
     tasks[taskCount].task[strcspn(tasks[taskCount].task, "\n")] = '\0';
-
     tasks[taskCount].done = 0;
 
-    taskCount++;
+    printf("\nSelect Priority\n");
+    printf("1. High\n2. Medium\n3. Low\n");
+    choice = getIntInRange("Enter choice: ", 1, 3);
+    if (choice == 1)
+    {
+        tasks[taskCount].priority = 1;
+    }
+    else if (choice == 2)
+    {
+        tasks[taskCount].priority = 2;
+    }
+    else
+    {
+        tasks[taskCount].priority = 3;
+    }
 
+    taskCount++;
     saveTasks();
 
     printf("Task added successfully!\n");
@@ -233,7 +333,6 @@ void searchTask()
     char keyword[50];
     int found = 0;
 
-    getchar();
     printf("=========================================================\n");
     printf("                    SEARCH TASK\n");
     printf("=========================================================\n");
@@ -242,7 +341,7 @@ void searchTask()
     fgets(keyword, 50, stdin);
     keyword[strcspn(keyword, "\n")] = '\0';
 
-    printf("\nNo.   Status      Task\n");
+    printf("\nNo.   Status       Priority    Task\n");
     printf("---------------------------------------------------------\n");
 
     for (int i = 0; i < taskCount; i++)
@@ -299,7 +398,7 @@ void taskStatistics()
     }
     float completion_rate = ((float)completed_tasks / taskCount) * 100.00;
 
-    printf("\nTotal Tasks     : %d\n", taskCount);
+    printf("\nTotal Tasks       : %d\n", taskCount);
     printf("Completed Tasks   : %d\n", completed_tasks);
     printf("Pending Tasks     : %d\n", pending_tasks);
     printf("Completion Rate   : %.2f%%\n", completion_rate);
@@ -310,7 +409,8 @@ void taskStatistics()
 
 void editTask()
 {
-    int choice;
+    int choice, choice1;
+    char priority;
     if (taskCount == 0)
     {
         printf("No task to edit.\n");
@@ -338,12 +438,19 @@ void editTask()
     }
 
     printf("\nCurrent Task:\n%s\n", tasks[choice - 1].task);
-    getchar();
 
     printf("\nEnter new task:\n");
     fgets(tasks[choice - 1].task, 50, stdin);
 
     tasks[choice - 1].task[strcspn(tasks[choice - 1].task, "\n")] = '\0';
+
+    printf("\nCurrent Priority: %s\n", getPriority(tasks[choice - 1].priority));
+    printf("\nSelect new priority\n");
+    printf("1. High\n");
+    printf("2. Medium\n");
+    printf("3. Low\n");
+    choice1 = getIntInRange("Choice: ", 1, 3);
+    tasks[choice - 1].priority = choice1;
 
     saveTasks();
     printf("Task updated successfully.\n");
@@ -381,6 +488,8 @@ void filterTasks()
             printTask(i);
         }
         printf("---------------------------------------------------------\n");
+        printf("Press Enter to continue...");
+        getchar();
         break;
 
     case 2:
@@ -392,7 +501,7 @@ void filterTasks()
             printf("No tasks available.\n");
             return;
         }
-        
+
         printHeader("PENDING TASKS");
 
         for (int i = 0; i < taskCount; i++)
@@ -409,8 +518,10 @@ void filterTasks()
             printf("No task pending.\n");
             break;
         }
-        
+
         printf("Total Pending: %d\n", total_pending);
+        printf("Press Enter to continue...");
+        getchar();
         break;
     }
 
@@ -423,7 +534,7 @@ void filterTasks()
             printf("No tasks available.\n");
             return;
         }
-        
+
         printHeader("COMPLETED TASKS");
 
         for (int i = 0; i < taskCount; i++)
@@ -440,12 +551,45 @@ void filterTasks()
             printf("No completed task found.\n");
             break;
         }
-        
+
         printf("Total Completed: %d\n", total_completed);
+        printf("Press Enter to continue...");
+        getchar();
         break;
     }
 
     case 4:
         return;
+    }
+}
+
+void sortTasks(){
+    int choice;
+    printf("=========================================================\n");
+    printf("                    SORT TASKS\n");
+    printf("=========================================================\n");
+    printf("\n1. By Priority\n");
+    printf("2. Alphabetically\n");
+    printf("3. By Status\n");
+    printf("4. Back\n");
+    printf("\n---------------------------------------------------------\n");
+    
+    choice = getIntInRange("Enter choice: ", 1, 4);
+    switch (choice)
+    {
+    case 1:
+        sortByPriority();
+        break;
+    
+    case 2:
+        sortAlphabetically();
+        break;
+
+    case 3:
+        sortByStatus();
+        break;
+
+    case 4:
+        break;
     }
 }
