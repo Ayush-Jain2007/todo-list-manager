@@ -183,14 +183,26 @@ void searchTask(){
     char keyword[50];
     int found = 0;
 
+    getchar();
     printf("=========================================================\n");
     printf("                    SEARCH TASK\n");
     printf("=========================================================\n");
+
     printf("\nEnter keyword: ");
-
     fgets(keyword, 50, stdin);
-
     keyword[strcspn(keyword, "\n")] = '\0';
+
+    printf("\nNo.   Status      Task\n");
+    printf("---------------------------------------------------------\n");
+
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (strstr(tasks[i].task, keyword) != NULL)
+        {
+            printTask(i);
+            found++;
+        }
+    }
 
     if (found == 0)
     {
@@ -202,16 +214,6 @@ void searchTask(){
         printf("Found %d matching task(s).\n", found);
     }
 
-    for (int i = 0; i < taskCount; i++)
-    {
-        if (strstr(tasks[i].task, keyword) != NULL)
-        {
-            printTask(i);
-            found++;
-        }
-    }
-    
-    
 }
 
 void taskStatistics(){
@@ -269,6 +271,9 @@ void editTask(){
     printf("=========================================================\n");
     
     displayTasks();
+
+    printf("Enter task number (0 to cancel):");
+    scanf("%d", &choice);
 
     if (choice == 0)
     {
