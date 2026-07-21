@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "functions.h"
 
 struct Task tasks[MAX_TASKS];
@@ -25,7 +26,7 @@ void sortByPriority()
 {
     for (int i = 0; i < taskCount; i++)
     {
-        for (int j = i+1; j < taskCount; j++)
+        for (int j = i + 1; j < taskCount; j++)
         {
             if (tasks[i].priority > tasks[j].priority)
             {
@@ -38,10 +39,11 @@ void sortByPriority()
     printf("Tasks sorted by priority successfully.\n");
 }
 
-void sortAlphabetically(){
+void sortAlphabetically()
+{
     for (int i = 0; i < taskCount; i++)
     {
-        for (int j = i+1; j < taskCount; j++)
+        for (int j = i + 1; j < taskCount; j++)
         {
             if (strcmp(tasks[i].task, tasks[j].task) > 0)
             {
@@ -54,10 +56,11 @@ void sortAlphabetically(){
     printf("Tasks sorted alphabetically.\n");
 }
 
-void sortByStatus(){
+void sortByStatus()
+{
     for (int i = 0; i < taskCount; i++)
     {
-        for (int j = i+1; j < taskCount; j++)
+        for (int j = i + 1; j < taskCount; j++)
         {
             if (tasks[i].done > tasks[j].done)
             {
@@ -65,7 +68,7 @@ void sortByStatus(){
             }
         }
     }
-    
+
     saveTasks();
     printf("Tasks sorted by status successfully.\n");
 }
@@ -101,7 +104,7 @@ void printTask(int index)
         break;
     }
 
-    printf("%s\n", tasks[index].task);
+    printf("%-25s %02d/%02d/%04d\n", tasks[index].task, tasks[index].dueDate.day, tasks[index].dueDate.month, tasks[index].dueDate.year);
 }
 
 void saveTasks()
@@ -126,8 +129,8 @@ void printHeader(const char *title)
     printf("%30s\n", title);
     printf("=========================================================\n");
 
-    printf("\nNo.   Status       Priority    Task\n");
-    printf("---------------------------------------------------------\n");
+    printf("\nNo.   Status      Priority   Task                      Due Date\n");
+    printf("----------------------------------------------------------------\n");
 }
 
 int getInt(const char *prompt)
@@ -188,8 +191,8 @@ void loadTasks()
 
 void displayTasks()
 {
-    printf("No.   Status       Priority    Task\n");
-    printf("---------------------------------------------------------\n");
+    printf("\nNo.   Status      Priority   Task                      Due Date\n");
+    printf("----------------------------------------------------------------\n");
     for (int i = 0; i < taskCount; i++)
     {
         printTask(i);
@@ -214,19 +217,10 @@ void addTask()
 
     printf("\nSelect Priority\n");
     printf("1. High\n2. Medium\n3. Low\n");
-    choice = getIntInRange("Enter choice: ", 1, 3);
-    if (choice == 1)
-    {
-        tasks[taskCount].priority = 1;
-    }
-    else if (choice == 2)
-    {
-        tasks[taskCount].priority = 2;
-    }
-    else
-    {
-        tasks[taskCount].priority = 3;
-    }
+
+    tasks[taskCount].priority = getIntInRange("Enter choice: ", 1, 3);
+
+    getDueDate(&tasks[taskCount].dueDate);
 
     taskCount++;
     saveTasks();
@@ -341,8 +335,8 @@ void searchTask()
     fgets(keyword, 50, stdin);
     keyword[strcspn(keyword, "\n")] = '\0';
 
-    printf("\nNo.   Status       Priority    Task\n");
-    printf("---------------------------------------------------------\n");
+    printf("\nNo.   Status      Priority   Task                      Due Date\n");
+    printf("----------------------------------------------------------------\n");
 
     for (int i = 0; i < taskCount; i++)
     {
@@ -563,7 +557,8 @@ void filterTasks()
     }
 }
 
-void sortTasks(){
+void sortTasks()
+{
     int choice;
     printf("=========================================================\n");
     printf("                    SORT TASKS\n");
@@ -573,14 +568,14 @@ void sortTasks(){
     printf("3. By Status\n");
     printf("4. Back\n");
     printf("\n---------------------------------------------------------\n");
-    
+
     choice = getIntInRange("Enter choice: ", 1, 4);
     switch (choice)
     {
     case 1:
         sortByPriority();
         break;
-    
+
     case 2:
         sortAlphabetically();
         break;
@@ -592,4 +587,52 @@ void sortTasks(){
     case 4:
         break;
     }
+}
+
+void getDueDate(struct Date *date)
+{
+    while (1)
+    {
+
+        printf("\nEnter due date\n");
+
+        date->day = getIntInRange("Day: ", 1, 31);
+        date->month = getIntInRange("Month: ", 1, 12);
+        date->year = getIntInRange("Year: ", 1, 3000);
+
+        if (isValidDate(date->day, date->month, date->year))
+        {
+            return;
+        }
+
+        printf("Enter a valid date.\n");
+    }
+}
+
+int isValidDate(int day, int month, int year)
+{
+    if (month == 4 || month == 6 || month == 9 || month == 11)
+    {
+        if (day > 30)
+        {
+            return 0;
+        }
+    }
+    else if (month == 2)
+    {
+        if (day <= 28)
+        {
+            return 1;
+        }
+        else if (day <= 29 && (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
+        {
+            return 1;
+        }
+        return 0;
+    }
+    return 1;
+}
+
+int isOverdue(struct Date dueDate){
+    
 }

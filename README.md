@@ -23,6 +23,7 @@ A console-based **To-Do List Manager** built in **C** that allows users to manag
   - Pending Tasks
   - Completed Tasks
 - 🛡️ Improved input validation
+- 📅 Due Dates
 - 💾 Persistent task storage using binary files (`tasks.dat`)
 - 📁 Modular project structure (`main.c`, `functions.c`, `functions.h`)
 ---
@@ -131,7 +132,6 @@ The file is automatically:
 
 ## 🔄 Planned Features
 
-- 📅 Due Dates
 - 🏷️ Task Categories
 - ⭐ Pin/Favorite Tasks
 - 📄 Export tasks to a text file

@@ -9,7 +9,16 @@ struct Task
     char task[50];
     int done;
     int priority; // 1 = High, 2 = Medium, 3 = Low
+    struct Date dueDate;
 };
+
+struct Date
+{
+    int day;
+    int month;
+    int year;
+};
+
 
 extern int taskCount;
 extern struct Task tasks[MAX_TASKS];
@@ -29,6 +38,8 @@ void swapTasks(int a, int b);
 void sortByPriority();
 void sortAlphabetically();
 void sortByStatus();
+int isValidDate(int day, int month, int year);
+int isOverdue(struct Date dueDate);
 
 // Main functions
 void addTask();
@@ -40,5 +51,6 @@ void taskStatistics();
 void editTask();
 void filterTasks();
 void sortTasks();
+void getDueDate(struct Date *date);
 
 #endif
