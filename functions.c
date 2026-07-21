@@ -104,7 +104,7 @@ void printTask(int index)
         break;
     }
 
-    printf("%-25s %02d/%02d/%04d ", tasks[index].task, tasks[index].dueDate.day, tasks[index].dueDate.month, tasks[index].dueDate.year);
+    printf("%-30s %02d/%02d/%04d ", tasks[index].task, tasks[index].dueDate.day, tasks[index].dueDate.month, tasks[index].dueDate.year);
     if (!tasks[index].done && isOverdue(tasks[index].dueDate))
     {
         printf("(OVERDUE)");
@@ -131,10 +131,13 @@ void saveTasks()
 
 void printHeader(const char *title)
 {
-    printf("=========================================================\n");
-    printf("%30s\n", title);
-    printf("=========================================================\n");
+    printf("================================================================\n");
+    printf("%33s\n", title);
+    printf("================================================================\n");
+}
 
+void printTableHeader()
+{
     printf("\nNo.   Status      Priority   Task                      Due Date\n");
     printf("----------------------------------------------------------------\n");
 }
@@ -197,13 +200,12 @@ void loadTasks()
 
 void displayTasks()
 {
-    printf("\nNo.   Status      Priority   Task                      Due Date\n");
-    printf("----------------------------------------------------------------\n");
+    printTableHeader();
     for (int i = 0; i < taskCount; i++)
     {
         printTask(i);
     }
-    printf("---------------------------------------------------------\n");
+    printf("----------------------------------------------------------------\n");
 }
 
 void addTask()
@@ -236,18 +238,31 @@ void addTask()
 
 void viewTasks()
 {
+    int completed = 0, pending = 0;
     if (taskCount == 0)
     {
         printf("No tasks to do.\n");
         return;
     }
-    printf("=========================================================\n");
-    printf("                    YOUR TASKS\n");
-    printf("=========================================================\n\n");
+    printHeader("YOUR TASKS");
+
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i].done)
+        {
+            completed++;
+        }
+        else
+        {
+            pending++;
+        }
+    }
 
     displayTasks();
 
-    printf("Total Tasks: %d\n\n", taskCount);
+    printf("Total Tasks   : %d\n", taskCount);
+    printf("Completed     : %d\n", completed);
+    printf("Pending Tasks : %d\n\n", pending);
     printf("Press Enter to continue...");
     getchar();
 }
@@ -260,9 +275,7 @@ void completeTask()
         printf("No tasks available.\n");
         return;
     }
-    printf("=========================================================\n");
-    printf("                 COMPLETE A TASK\n");
-    printf("=========================================================\n");
+    printHeader("COMPLETE A TASK");
 
     displayTasks();
 
@@ -299,9 +312,7 @@ void deleteTask()
         return;
     }
 
-    printf("=========================================================\n");
-    printf("                  DELETE A TASK\n");
-    printf("=========================================================\n\n");
+    printHeader("DELETE A TASK");
 
     displayTasks();
 
@@ -333,16 +344,13 @@ void searchTask()
     char keyword[50];
     int found = 0;
 
-    printf("=========================================================\n");
-    printf("                    SEARCH TASK\n");
-    printf("=========================================================\n");
+    printHeader("SEARCH TASK");
 
     printf("\nEnter keyword: ");
     fgets(keyword, 50, stdin);
     keyword[strcspn(keyword, "\n")] = '\0';
 
-    printf("\nNo.   Status      Priority   Task                      Due Date\n");
-    printf("----------------------------------------------------------------\n");
+    printTableHeader();
 
     for (int i = 0; i < taskCount; i++)
     {
@@ -359,7 +367,7 @@ void searchTask()
     }
     else
     {
-        printf("---------------------------------------------------------\n");
+        printf("----------------------------------------------------------------\n");
         printf("Found %d matching task(s).\n", found);
     }
 }
@@ -370,20 +378,16 @@ void taskStatistics()
 
     if (taskCount == 0)
     {
-        printf("=========================================================\n");
-        printf("                 TASK STATISTICS\n");
-        printf("=========================================================\n");
+        printHeader("TASK STATISTICS");
         printf("\nNo tasks available.\n");
-
+        
         printf("\nPress Enter to continue...");
         getchar();
         getchar();
         return;
     }
-
-    printf("=========================================================\n");
-    printf("                 TASK STATISTICS\n");
-    printf("=========================================================\n");
+    
+    printHeader("TASK STATISTICS");
 
     for (int i = 0; i < taskCount; i++)
     {
@@ -417,9 +421,7 @@ void editTask()
         return;
     }
 
-    printf("=========================================================\n");
-    printf("                    EDIT TASK\n");
-    printf("=========================================================\n");
+    printHeader("EDIT TASK");
 
     displayTasks();
 
@@ -460,14 +462,13 @@ void filterTasks()
 {
     int choice;
 
-    printf("=========================================================\n");
-    printf("                  FILTER TASKS\n");
-    printf("=========================================================\n");
+    printHeader("FILTER TASKS");
+
     printf("\n1. All Tasks\n");
     printf("2. Pending Tasks\n");
     printf("3. Completed Tasks\n");
     printf("4. Back\n");
-    printf("\n---------------------------------------------------------\n");
+    printf("\n----------------------------------------------------------------\n");
 
     choice = getIntInRange("Enter your choice: ", 1, 4);
 
@@ -487,7 +488,7 @@ void filterTasks()
         {
             printTask(i);
         }
-        printf("---------------------------------------------------------\n");
+        printf("----------------------------------------------------------------\n");
         printf("Press Enter to continue...");
         getchar();
         break;
@@ -512,7 +513,7 @@ void filterTasks()
                 total_pending++;
             }
         }
-        printf("---------------------------------------------------------\n");
+        printf("----------------------------------------------------------------\n");
         if (!total_pending)
         {
             printf("No task pending.\n");
@@ -545,7 +546,7 @@ void filterTasks()
                 total_completed++;
             }
         }
-        printf("---------------------------------------------------------\n");
+        printf("----------------------------------------------------------------\n");
         if (!total_completed)
         {
             printf("No completed task found.\n");
@@ -566,14 +567,13 @@ void filterTasks()
 void sortTasks()
 {
     int choice;
-    printf("=========================================================\n");
-    printf("                    SORT TASKS\n");
-    printf("=========================================================\n");
+    printHeader("SORT TASKS");
+
     printf("\n1. By Priority\n");
     printf("2. Alphabetically\n");
     printf("3. By Status\n");
     printf("4. Back\n");
-    printf("\n---------------------------------------------------------\n");
+    printf("\n----------------------------------------------------------------\n");
 
     choice = getIntInRange("Enter choice: ", 1, 4);
     switch (choice)
@@ -639,7 +639,8 @@ int isValidDate(int day, int month, int year)
     return 1;
 }
 
-void getCurrentDate(struct Date *date){
+void getCurrentDate(struct Date *date)
+{
     time_t currentTime = time(NULL);
     struct tm *localTime = localtime(&currentTime);
 
@@ -649,7 +650,8 @@ void getCurrentDate(struct Date *date){
     date->year = localTime->tm_year + 1900;
 }
 
-int isOverdue(struct Date dueDate){
+int isOverdue(struct Date dueDate)
+{
     struct Date today;
     getCurrentDate(&today);
 

@@ -4,6 +4,12 @@ A console-based **To-Do List Manager** built in **C** that allows users to manag
 
 ---
 
+## 🎯 Project Goals
+
+This project was built to practice core C programming concepts by creating a complete console application. It demonstrates modular design, binary file handling, input validation, searching, sorting, and data persistence.
+
+---
+
 ## ✨ Features
 
 - ➕ Add new tasks
@@ -23,7 +29,7 @@ A console-based **To-Do List Manager** built in **C** that allows users to manag
   - Pending Tasks
   - Completed Tasks
 - 🛡️ Improved input validation
-- 📅 Due Dates
+- 📅 Due dates with overdue detection
 - 💾 Persistent task storage using binary files (`tasks.dat`)
 - 📁 Modular project structure (`main.c`, `functions.c`, `functions.h`)
 ---
@@ -53,6 +59,8 @@ todo-list-manager/
 - Modular Programming
 - File Handling
 - Binary File I/O
+- Standard C Library
+- <time.h>
 
 ---
 
@@ -104,14 +112,14 @@ Enter your choice:
 
 ## 📌 Current Version
 
-**v3.0.0**
+**v4.0.0**
 
 Latest additions:
-- Task priorities
-- Edit task
-- Input validation
-- Task filtering
-- Task sorting
+- 📅 Due dates
+- 🏷️ Task priorities
+- 🔄 Task sorting
+- 📂 Task filtering
+- 🛡️ Improved input validation
 
 ---
 
@@ -130,15 +138,6 @@ The file is automatically:
 
 ---
 
-## 🔄 Planned Features
-
-- 🏷️ Task Categories
-- ⭐ Pin/Favorite Tasks
-- 📄 Export tasks to a text file
-- 🎨 Enhanced console interface 
-
----
-
 ## 📖 Concepts Practiced
 
 - Structures
@@ -147,10 +146,11 @@ The file is automatically:
 - Header Files
 - Modular Programming
 - File Handling
-- Binary Files (`fread()` / `fwrite()`)
+- Binary File I/O
 - Input Validation
 - Searching Algorithms
 - Sorting Algorithms
+- Date & Time (`time.h`)
 - Menu-driven Programming
 
 ---
