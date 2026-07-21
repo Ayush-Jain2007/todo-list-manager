@@ -104,7 +104,13 @@ void printTask(int index)
         break;
     }
 
-    printf("%-25s %02d/%02d/%04d\n", tasks[index].task, tasks[index].dueDate.day, tasks[index].dueDate.month, tasks[index].dueDate.year);
+    printf("%-25s %02d/%02d/%04d ", tasks[index].task, tasks[index].dueDate.day, tasks[index].dueDate.month, tasks[index].dueDate.year);
+    if (!tasks[index].done && isOverdue(tasks[index].dueDate))
+    {
+        printf("(OVERDUE)");
+    }
+
+    printf("\n");
 }
 
 void saveTasks()
@@ -633,6 +639,48 @@ int isValidDate(int day, int month, int year)
     return 1;
 }
 
+void getCurrentDate(struct Date *date){
+    time_t currentTime = time(NULL);
+    struct tm *localTime = localtime(&currentTime);
+
+    // get day,month and year
+    date->day = localTime->tm_mday;
+    date->month = localTime->tm_mon + 1;
+    date->year = localTime->tm_year + 1900;
+}
+
 int isOverdue(struct Date dueDate){
-    
+    struct Date today;
+    getCurrentDate(&today);
+
+    if (dueDate.year > today.year)
+    {
+        return 0;
+    }
+    else if (dueDate.year < today.year)
+    {
+        return 1;
+    }
+    else
+    {
+        if (dueDate.month > today.month)
+        {
+            return 0;
+        }
+        else if (dueDate.month < today.month)
+        {
+            return 1;
+        }
+        else
+        {
+            if (dueDate.day >= today.day)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+    }
 }

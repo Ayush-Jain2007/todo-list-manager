@@ -40,6 +40,7 @@ void sortAlphabetically();
 void sortByStatus();
 int isValidDate(int day, int month, int year);
 int isOverdue(struct Date dueDate);
+void getCurrentDate(struct Date *date);
 
 // Main functions
 void addTask();
